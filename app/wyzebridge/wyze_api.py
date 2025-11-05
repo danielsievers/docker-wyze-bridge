@@ -250,7 +250,20 @@ class WyzeApi:
         logger.info(f'☁️ Pulling "{uri}" thumbnail to {save_to}')
 
         try:
-            img = get(thumb)
+            backoff = 0.2
+            deadline = time() + 3.0
+            img = None
+            
+            while True:
+                img = get(thumb)
+                if img.status_code != 200:
+                  pass
+            
+                if time() + backoff > deadline:
+                    logger.error("[API] Backoff exceeded timeout trying to pull thumbnail")
+                    break
+                sleep(backoff)
+                backoff = min(backoff * 2, 1.0)
             img.raise_for_status()
 
             with open(save_to, "wb") as f:
