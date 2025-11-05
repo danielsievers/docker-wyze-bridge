@@ -40,11 +40,11 @@ class WyzeEvents:
                 event_time = datetime.fromtimestamp(self.last_ts)
                 msg = f"Motion detected on {stream.uri} at {event_time: %H:%M:%S}"
                 logger.info(f"[EVENTS] {msg}")
-                send_webhook("motion", stream.uri, msg, img)
                 if MOTION_START:
                     stream.start()
                 if img and self.api.save_thumbnail(stream.camera.name_uri, img):
                     update_preview(stream.camera.name_uri)
+                send_webhook("motion", stream.uri, msg, img)
 
     def process_event(self, event: dict):
         if event["event_id"] in self.events:
