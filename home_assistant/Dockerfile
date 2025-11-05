@@ -4,7 +4,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg ca-certificates curl libgl1 tar gcc build-essential libffi-dev \
  && rm -rf /var/lib/apt/lists/*
 
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    FLASK_APP=frontend \
+    FLASK_ENV=production \
+    FLASK_DEBUG=0
 WORKDIR /app
 
 # Copy app code
