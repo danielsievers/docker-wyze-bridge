@@ -256,8 +256,8 @@ class WyzeApi:
             
             while True:
                 img = get(thumb)
-                if img.status_code != 200:
-                  pass
+                if img.status_code == 200:
+                  break
             
                 if time() + backoff > deadline:
                     logger.error("[API] Backoff exceeded timeout trying to pull thumbnail")
